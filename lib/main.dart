@@ -4,41 +4,54 @@ void main() {
   runApp(const MyApp());
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
   const MyApp({super.key});
 
-  void answerQuiz() {
-    print('Your answer!');
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  var _questionIndex = 0;
+
+  void _answerQuiz() {
+    setState(() {
+      _questionIndex++;
+    });
   }
 
   @override
   Widget build(BuildContext context) {
+    var questions = [
+      'What\'s your favorite color?',
+      'What do you do?',
+      'Do you have chairs?',
+      'Would you like some red wine?',
+    ];
     return MaterialApp(
       title: 'QuiZ',
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-        useMaterial3: true,
-      ),
       home: Scaffold(
         appBar: AppBar(
           title: const Text('Quiz'),
         ),
-        body: Column(
-          children: [
-            const Text('Question'),
-            ElevatedButton(
-              onPressed: answerQuiz,
-              child: const Text('Answer one'),
-            ),
-            ElevatedButton(
-              onPressed: answerQuiz,
-              child: const Text('Answer two'),
-            ),
-            ElevatedButton(
-              onPressed: answerQuiz,
-              child: const Text('Answer three'),
-            ),
-          ],
+        body: Center(
+          child: Column(
+            children: [
+              Text(questions[_questionIndex]),
+              ElevatedButton(
+                onPressed: _answerQuiz,
+                child: const Text('Answer one'),
+              ),
+              ElevatedButton(
+                onPressed: _answerQuiz,
+                child: const Text('Answer two'),
+              ),
+              ElevatedButton(
+                onPressed: _answerQuiz,
+                child: const Text('Answer three'),
+              ),
+            ],
+          ),
         ),
       ),
     );
