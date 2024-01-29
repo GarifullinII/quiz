@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:quiz/answer.dart';
-import 'package:quiz/question.dart';
+import 'package:quiz/quiz.dart';
 
 void main() {
   runApp(const MyApp());
@@ -16,6 +15,30 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   var _questionIndex = 0;
 
+  static const _questions = [
+    {
+      'questionText': 'What\'s your favorite color?',
+      'answers': ['Red', 'Blue', 'Green', 'Yellow'],
+    },
+    {
+      'questionText': 'What do you do?',
+      'answers': ['Eat', 'Sleep', 'Drink water', 'Run'],
+    },
+    {
+      'questionText': 'Do you have chairs?',
+      'answers': ['Yes', 'No', 'A lot', 'I don\'t know'],
+    },
+    {
+      'questionText': 'Would you like some red wine?',
+      'answers': [
+        'Yes',
+        'No',
+        'I don\'t drink alcohol',
+        'No, I would like soda'
+      ],
+    },
+  ];
+
   void _answerQuiz() {
     setState(() {
       _questionIndex++;
@@ -24,29 +47,19 @@ class _MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
-    var questions = [
-      'What\'s your favorite color?',
-      'What do you do?',
-      'Do you have chairs?',
-      'Would you like some red wine?',
-    ];
     return MaterialApp(
       title: 'QuiZ',
       home: Scaffold(
-        appBar: AppBar(
-          title: const Text('Quiz'),
-        ),
-        body: Center(
-          child: Column(
-            children: [
-              Question(questions[_questionIndex]),
-              Answer('answer 1', _answerQuiz),
-              Answer('answer 2', _answerQuiz),
-              Answer('answer 3', _answerQuiz),
-            ],
+          appBar: AppBar(
+            title: const Text('Quiz'),
           ),
-        ),
-      ),
+          body: _questionIndex < _questions.length
+              ? Quiz(
+                  questions: _questions,
+                  questionIndex: _questionIndex,
+                  answerQuiz: _answerQuiz,
+                )
+              : const Center(child: Text('Finish'))),
     );
   }
 }
